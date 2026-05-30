@@ -1,0 +1,22 @@
+# Money Printer Bot 配置
+
+binance:
+  api_key: ""
+  secret_key: ""
+
+telegram:
+  bot_token: ""
+  chat_id: ""
+
+symbols:
+  - BTCUSDT
+  - ETHUSDT
+  - SOLUSDT
+  - BNBUSDT
+  - DOGEUSDT
+
+risk:
+  max_position_pct: 10
+  max_daily_loss_pct: 5
+  stop_loss_pct: 2
+  take_profit_pct: 4
