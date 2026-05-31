@@ -1,5 +1,6 @@
+# -*- coding: utf-8 -*-
 """
-Gate.io ½'-~î÷ÿW)uÎ
+Gate.io spot-futures spread arbitrage engine
 """
 
 import ccxt
@@ -20,7 +21,6 @@ class GateArb:
             'enableRateLimit': True,
             'options': {'defaultType': 'swap'},
         })
-        #X
         self._spot_cache = {}
         self._futures_cache = {}
         self._cache_ts = 0
@@ -46,12 +46,10 @@ class GateArb:
         self._cache_ts = now
 
     def _to_futures_symbol(self, spot_sym):
-        """BTC/USDT -> BTC/USDT:USDT"""
         base = spot_sym.split('/')[0]
         return f"{base}/USDT:USDT"
 
     def spot_futures_spread(self, spot_symbol):
-        ""«¡÷½'}~¦ÿî"""
         self._refresh_cache()
         fut_symbol = self._to_futures_symbol(spot_symbol)
         spot_price = self._spot_cache.get(spot_symbol, 0)
