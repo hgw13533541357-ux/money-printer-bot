@@ -1,6 +1,6 @@
-# Money Printer Bot 配置
+# Money Printer Bot�Mn (Gate.iorH)
 
-binance:
+gateio:
   api_key: ""
   secret_key: ""
 
@@ -9,11 +9,11 @@ telegram:
   chat_id: ""
 
 symbols:
-  - BTCUSDT
-  - ETHUSDT
-  - SOLUSDT
-  - BNBUSDT
-  - DOGEUSDT
+  - BTC/USDT
+  - ETH/USDT
+  - SOL/USDT
+  - BNB/USDT
+  - DOGE/USDT
 
 risk:
   max_position_pct: 10
