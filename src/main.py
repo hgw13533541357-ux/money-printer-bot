@@ -1,11 +1,14 @@
 """
-Money Printer Bot - ä¸»å…¥å£
+Money Printer Bot - {wã (Gate.iorH)
 """
 
 import os
 import time
 import yaml
-from arbs import BinanceArb
+import sys
+sys.path.insert(0, os.path.dirname(__file__))
+
+from arbs import GateArb
 from risk import RiskManager
 from notifier import Notifier
 
@@ -19,43 +22,54 @@ def load_config():
 def main():
     cfg = load_config()
 
-    api_key = os.getenv("BINANCE_API_KEY") or cfg.get("binance", {}).get("api_key", "")
-    secret = os.getenv("BINANCE_SECRET_KEY") or cfg.get("binance", {}).get("secret_key", "")
+    api_key = os.getenv("GATE_API_KEY") or cfg.get("gateio", {}).get("api_key", "")
+    secret = os.getenv("GATE_API_SECRET") or cfg.get("gateio", {}).get("secret_key", "")
     tg_token = os.getenv("TELEGRAM_BOT_TOKEN") or cfg.get("telegram", {}).get("bot_token", "")
     tg_chat = os.getenv("TELEGRAM_CHAT_ID") or cfg.get("telegram", {}).get("chat_id", "")
-    symbols = cfg.get("symbols", ["BTCUSDT", "ETHUSDT", "SOLUSDT"])
+    symbols = cfg.get("symbols", ["BTC/USDT", "ETH/USDT", "SOL/USDT"])
 
-    arb = BinanceArb(api_key, secret)
-    risk = RiskManager(balance_usdt=1000.0)
+    if not api_key or not secret:
+        print("[ERROR] Gate.io API Key »n‹÷( Secrets û  GATE_API_KEYtŒ GATE_API_SECRET")
+        return
+
+    arb = GateArb(api_key, secret)
+    risk = RiskManager(balance_usdt=100.0)
     notify = Notifier(tg_token, tg_chat)
 
-    print("Money Printer Bot å¯åŠ¨")
-    notify.send("å°é’žæœºå·²å¯åŠ¨")
+    print("ÿì Money Printer Bot (Gate.io)t¨")
+    notify.send(ú>ìspÿò¨ (Gate.io)")
 
-    while True:
+    rounds = 0
+    while rounds < 60:  # YŸÑ6¿n
         try:
             opps = arb.top_opportunities(base_symbols=symbols, min_spread_pct=0.1)
             if opps:
-                msg_lines = ["å¥—åˆ©æœºä¼šå‘çŽ°ï¼\n"]
+                msg_lines = [úýyW)[Ñÿ\n"]
                 for o in opps[:3]:
                     msg_lines.append(
-                        f"{o['symbol']} | "
-                        f"ä»·å·®: {o['spread_pct']:+.3f}% | "
-                        f"å»ºè®®: {o['signal']}"
+                        f"  {o['symbol']} | "
+                        fn÷î: {o['spread_pct']:+.3f}% | "
+                        f"{o['signal']}"
                     )
+                    print(f"[OPP] {o['symbol']} spread={o['spread_pct']:+.3f}% signal={o['signal']}")
                 notify.send("\n".join(msg_lines))
+            else:
+                print(f"[{time.strftime('%H:%M:%S')}] Wo: 0n*")
 
-            print(f"[{time.strftime('%H:%M:%S')}] æ‰«æå®Œæˆ | {len(opps)} ä¸ªæœºä¼š")
-            time.sleep(1800)
+            rounds += 1
+            time.sleep(60)
 
         except KeyboardInterrupt:
-            print("æ‰‹åŠ¨åœæ­¢")
-            notify.send("å°é’žæœºåœæ­¢")
+            print("[ø\b")
+            notify.send(spÿz\b")
             break
         except Exception as e:
-            print(f"é”™è¯¯: {e}")
-            notify.send(f"å°é’žæœºå¼‚å¸¸: {e}")
-            time.sleep(60)
+            print(f·›ï: {e}")
+            notify.send(fsôž^8: {e}")
+            time.sleep(30)
+
+    print(f"¯Ð_î]skÏ {rounds}¯n")
+    notify.send(f"spÿ¿Ð_înkÏ {rounds}¯n")
 
 
 if __name__ == "__main__":
