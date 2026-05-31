@@ -6,7 +6,7 @@ on:
   workflow_dispatch:
     inputs:
       rounds:
-        description: gkÏop ¾Ø¤60)'
+        description: 'Scan rounds (default 60)'
         required: false
         default: '60'
 
