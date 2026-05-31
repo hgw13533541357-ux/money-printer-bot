@@ -1,22 +1,26 @@
-# Money Printer Bot Config (Gate.io)
+# Gate.io Spot-Futures Arbitrage Bot Configuration
+exchange: gateio
 
-gateio:
-  api_key: ""
-  secret_key: ""
+# API credentials (set via environment variables in CI)
+# GATE_API_KEY
+# GATE_API_SECRET
 
-telegram:
-  bot_token: ""
-  chat_id: ""
+# Trading pairs to monitor (Gate.io format)
+pairs:
+  - BTC_USDT
+  - ETH_USDT
+  - SOL_USDT
 
-symbols:
-  - BTC/USDT
-  - ETH/USDT
-  - SOL/USDT
-  - BNB/USDT
-  - DOGE/USDT
+# Trading parameters
+min_spread: 0.15  # Minimum spread to trigger trade (%)
+trade_size_usdt: 5.0  # Size per trade in USDT
+max_positions: 3  # Max concurrent positions
+dry_run: false  # Set true to simulate orders
 
-risk:
-  max_position_pct: 10
-  max_daily_loss_pct: 5
-  stop_loss_pct: 2
-  take_profit_pct: 4
+# Risk management
+max_drawdown_percent: 10.0
+max_daily_trades: 20
+consecutive_loss_limit: 3
+
+# Notifications
+telegram_enabled: false
