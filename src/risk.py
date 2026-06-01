@@ -1,4 +1,5 @@
 # Risk management utilities
+import os
 
 MAX_DRAWDOWN_PERCENT = float(os.environ.get("MAX_DRAWDOWN", "10.0"))
 MAX_DAILY_TRADES = int(os.environ.get("MAX_DAILY_TRADES", "20"))

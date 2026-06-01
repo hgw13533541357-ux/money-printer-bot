@@ -90,7 +90,7 @@ def run():
     pos = get_open_positions()
     print(f"[POSITIONS] Open: {len(pos)}")
     for p in pos:
-        print(f"  {p[chr(34)+chr(99)+chr(111)+chr(110)+chr(116)+chr(114)+chr(97)+chr(99)+chr(116)+chr(34)]} | size={p[chr(34)+chr(115)+chr(105)+chr(122)+chr(101)+chr(34)]:.4f} | entry={p[chr(34)+chr(101)+chr(110)+chr(116)+chr(114)+chr(121)+chr(34)]:.2f} | PnL={p[chr(34)+chr(112)+chr(110)+chr(108)+chr(34)]:.2f}")
+        print(f"  {p['contract']} | size={p['size']:.4f} | entry={p['entry']:.2f} | PnL={p['pnl']:.2f}")
     cnt = len(pos)
     for sym in PAIRS:
         sym = sym.strip()
@@ -122,13 +122,14 @@ def run():
     for r in results:
         print(json.dumps(r))
 
-print("=== GATE.IO SPOT-FUTURES ARB BOT ===")
-print(f"Pairs: {PAIRS}")
-print(f"Min Spread: {MIN_SPREAD}%")
-print(f"Trade Size: {TRADE_SIZE} USDT")
-print(f"Max Positions: {MAX_POSITIONS}")
-print(f"Dry Run: {DRY_RUN}")
-print()
-run()
-print()
-print("Done.")
+if __name__ == "__main__":
+    print("=== GATE.IO SPOT-FUTURES ARB BOT ===")
+    print(f"Pairs: {PAIRS}")
+    print(f"Min Spread: {MIN_SPREAD}%")
+    print(f"Trade Size: {TRADE_SIZE} USDT")
+    print(f"Max Positions: {MAX_POSITIONS}")
+    print(f"Dry Run: {DRY_RUN}")
+    print()
+    run()
+    print()
+    print("Done.")
