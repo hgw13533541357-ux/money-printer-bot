@@ -15,10 +15,10 @@ jobs:
     runs-on: ubuntu-latest
 
     steps:
-      - uses: actions/checkout@v3
+      - uses: actions/checkout@v4
 
       - name: Set up Python
-        uses: actions/setup-python@v4
+        uses: actions/setup-python@v5
         with:
           python-version: '3.11'
 
@@ -32,4 +32,12 @@ jobs:
           GATE_API_SECRET: ${{ secrets.GATE_API_SECRET }}
           TELEGRAM_BOT_TOKEN: ${{ secrets.TELEGRAM_BOT_TOKEN }}
           TELEGRAM_CHAT_ID: ${{ secrets.TELEGRAM_CHAT_ID }}
+          DRY_RUN: "true"
         run: python src/main.py
+
+      - name: Upload scan results
+        uses: actions/upload-artifact@v4
+        with:
+          name: arb-results
+          path: arb_results_*.csv
+          retention-days: 7

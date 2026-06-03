@@ -1,4 +1,4 @@
-import os, sys, time, json, hmac, hashlib, requests
+import os, sys, time, json, hmac, hashlib, requests, csv
 from datetime import datetime
 
 GATE_API_KEY = os.environ.get("GATE_API_KEY", "")
@@ -122,6 +122,17 @@ def run():
     for r in results:
         print(json.dumps(r))
 
+def save_results():
+    """Save trade results to CSV file"""
+    if not results:
+        return
+    filename = f"arb_results_{datetime.now().strftime('%Y%m%d_%H%M%S')}.csv"
+    with open(filename, 'w', newline='') as f:
+        w = csv.DictWriter(f, fieldnames=["ts","sym","spread","spot","futures","dir","size","bal"])
+        w.writeheader()
+        w.writerows(results)
+    print(f"[SAVED] {filename} ({len(results)} records)")
+
 if __name__ == "__main__":
     print("=== GATE.IO SPOT-FUTURES ARB BOT ===")
     print(f"Pairs: {PAIRS}")
@@ -131,5 +142,6 @@ if __name__ == "__main__":
     print(f"Dry Run: {DRY_RUN}")
     print()
     run()
+    save_results()
     print()
     print("Done.")
